@@ -1,52 +1,60 @@
 import mongoose from 'mongoose';
 
+// MongoDB connection function
 const connectMongo = async () => {
-  if (mongoose.connections[0].readyState) return;
-  await mongoose.connect(process.env.MONGODB_URI);
+  if (mongoose.connections[0].readyState) return; // If already connected, do nothing
+  await mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 };
 
-// Update schema to match provided data structure
+// Define employee schema
 const employeeSchema = new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  city: String,
-  contact_number: String
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+  city: { type: String, required: true },
+  contact_number: { type: String, required: true },
 });
 
+// Use existing model if it exists, otherwise create a new one
 const Employee = mongoose.models.Employee || mongoose.model('Employee', employeeSchema);
 
 export default async function handler(req, res) {
+  // Connect to MongoDB
   await connectMongo();
 
   const { query } = req.query;
 
+  // Check if the query parameter is provided
   if (!query) {
-    res.status(400).json({ error: 'Query parameter is required' });
-    return;
+    return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  // Trim the query string to remove leading/trailing spaces
+  // Trim query to remove leading/trailing spaces
   const trimmedQuery = query.trim();
 
   try {
-    // First check if there's a match in the first_name field
+    // First, try to match the first_name
     const firstNameMatches = await Employee.find({
-      first_name: { $regex: `^${trimmedQuery}`, $options: 'i' }
+      first_name: { $regex: `^${trimmedQuery}`, $options: 'i' }, // Case-insensitive matching
     });
 
-    // If there are matches in first_name, return them
+    // If matches found in first_name, return the results
     if (firstNameMatches.length > 0) {
-      res.status(200).json(firstNameMatches);
-      return;
+      return res.status(200).json(firstNameMatches);
     }
 
-    // If no matches in first_name, check last_name
+    // If no matches in first_name, try last_name
     const lastNameMatches = await Employee.find({
-      last_name: { $regex: `^${trimmedQuery}`, $options: 'i' }
+      last_name: { $regex: `^${trimmedQuery}`, $options: 'i' }, // Case-insensitive matching
     });
 
-    res.status(200).json(lastNameMatches);
+    // Return the results from last_name matches (could be an empty array)
+    return res.status(200).json(lastNameMatches);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching data' });
+    // Handle errors (e.g., database connection or query issues)
+    console.error('Error fetching data:', error);
+    return res.status(500).json({ error: 'Error fetching data' });
   }
 }
