@@ -27,14 +27,14 @@ export default function Home() {
       {/* Navbar */}
       <nav className="bg-white shadow-md py-6 px-8 flex items-center justify-center h-24">
         <div className="flex justify-between items-center w-full max-w-5xl">
-          <div className="flex items-center cursor-pointer">
+          <div className="flex items-center">
             <Link href="/">
               <Image src="/logo.svg" alt="Girman Technologies Logo" width={150} height={50} />
             </Link>
           </div>
           <div className="flex gap-8 items-center">
             <Link href="/">
-              <span className="nav-link">Search</span>
+              <a className="nav-link">Search</a> {/* Link to the search page */}
             </Link>
             <a href="https://girmantech.com" target="_blank" rel="noopener noreferrer" className="nav-link">Website</a>
             <a href="https://www.linkedin.com/company/girman-technologies" target="_blank" rel="noopener noreferrer" className="nav-link">LinkedIn</a>
