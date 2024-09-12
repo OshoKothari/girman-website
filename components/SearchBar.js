@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import EmployeeCard from '../components/EmployeeCard';
-import NoResults from '../components/NoResults';
+import NoResults from '../components/NoResults'; // Import the NoResults component
 
 export default function SearchPage() {
   const [query, setQuery] = useState('');
@@ -37,7 +37,7 @@ export default function SearchPage() {
           <NoResults />
         ) : (
           employees.map((employee) => (
-            <EmployeeCard key={employee._id || employee.id} employee={employee} />
+            <EmployeeCard key={employee._id} employee={employee} />
           ))
         )}
       </div>
