@@ -6,9 +6,9 @@ export default function EmployeeCard({ employee }) {
 
   return (
     <div className="card bg-white shadow-md rounded-lg p-6 m-4 hover:shadow-lg transition-shadow duration-300 max-w-xs relative">
-      {/* Image Placeholder */}
+      {/* Profile Image */}
       <img
-        src="https://via.placeholder.com/50" // Placeholder for employee image
+        src={employee.image} // Updated to use employee image from JSON data
         alt="Profile"
         className="rounded-full w-16 h-16 mb-3 border-2 border-gray-300 transition-transform duration-300 hover:scale-110"
       />
@@ -68,7 +68,7 @@ export default function EmployeeCard({ employee }) {
               {/* Profile Image */}
               <div className="w-full flex justify-center mt-4">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src={employee.image} // Updated to use employee image from JSON data
                   alt="Profile"
                   className="w-32 h-32 rounded-lg object-cover"
                 />
