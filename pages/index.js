@@ -33,7 +33,7 @@ export default function Home() {
             {/* Removed the <a> and kept the Link */}
             <Link href="/" className="nav-link">Search</Link>
             <a href="https://girmantech.com" target="_blank" rel="noopener noreferrer" className="nav-link">Website</a>
-            <a href="https://www.linkedin.com/company/girman-technologies" target="_blank" rel="noopener noreferrer" className="nav-link">LinkedIn</a>
+            <a href="https://www.linkedin.com/company/girmantech" target="_blank" rel="noopener noreferrer" className="nav-link">LinkedIn</a>
             <a href="mailto:contact@girmantech.com" className="nav-link">Contact</a>
           </div>
         </div>
